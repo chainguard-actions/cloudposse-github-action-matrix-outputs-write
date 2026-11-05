@@ -1,0 +1,28 @@
+name: Test basic outputs (no matrix)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          outputs: |-
+            image: nginx
+            tag: latest
+            count: 3
+      - name: Assert outputs
+        env:
+          IMAGE: ${{ steps.action.outputs.image }}
+          TAG: ${{ steps.action.outputs.tag }}
+          COUNT: ${{ steps.action.outputs.count }}
+          RESULT: ${{ steps.action.outputs.result }}
+        run: |
+          echo "image: $IMAGE"; echo "tag: $TAG"; echo "count: $COUNT"; echo "result: $RESULT"
+          [ "$IMAGE" = "nginx" ] || { echo "FAIL: image"; exit 1; }
+          [ "$TAG" = "latest" ] || { echo "FAIL: tag"; exit 1; }
+          [ "$COUNT" = "3" ] || { echo "FAIL: count"; exit 1; }
+          [ "$RESULT" = '{"image":"nginx","tag":"latest","count":3}' ] || { echo "FAIL: result"; exit 1; }
+          echo "PASS"

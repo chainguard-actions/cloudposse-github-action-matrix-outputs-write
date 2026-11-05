@@ -1,6 +1,16 @@
 {
   "owner": "cloudposse",
   "repo": "github-action-matrix-outputs-write",
-  "version": "",
-  "url": "https://github.com/cloudposse/github-action-matrix-outputs-write"
+  "version": "1.0.0",
+  "commit_sha": "ed06cf3a6bf23b8dce36d1cf0d63123885bb8375",
+  "url": "https://github.com/cloudposse/github-action-matrix-outputs-write",
+  "policy_sha": "d636be7e43ef829af6e853da6b3c7566db9f72fe",
+  "test_policy_sha": "843adf9e4b8f85d0c08b27b9d0b09dd094b54702",
+  "test_agent_version": "2",
+  "harden_agent_version": "2",
+  "node_artifact": {
+    "gcs_uri": "gs://prod-actions-node-artifacts/node-artifacts/cloudposse/github-action-matrix-outputs-write/1.0.0/sha256-bc0dd4c71e32873bff3fd5fdebf6f2f9d9722dd5179624f01edb417dbe080d11.tar.gz",
+    "sha256": "bc0dd4c71e32873bff3fd5fdebf6f2f9d9722dd5179624f01edb417dbe080d11",
+    "size_bytes": 18809854
+  }
 }

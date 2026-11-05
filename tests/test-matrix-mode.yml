@@ -1,0 +1,36 @@
+name: Test matrix mode
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        # Artifact upload needs the Actions runtime artifact service, which may be
+        # unavailable under act; the synchronous parts are asserted below.
+        continue-on-error: true
+        with:
+          matrix-step-name: build-step
+          matrix-key: linux
+          outputs: |-
+            image: nginx
+      - name: Assert matrix file written with keyed content
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" != "success" ] && [ "$OUTCOME" != "failure" ]; then
+            echo "FAIL: unexpected outcome"
+            exit 1
+          fi
+          F="$GITHUB_WORKSPACE/build-step"
+          [ -f "$F" ] || { echo "FAIL: $F not written"; exit 1; }
+          CONTENT="$(cat "$F")"
+          echo "content: $CONTENT"
+          if [ "$CONTENT" != '{"linux":{"image":"nginx"}}' ]; then
+            echo "FAIL: unexpected artifact content"
+            exit 1
+          fi
+          echo "PASS"
